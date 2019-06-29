@@ -12,6 +12,8 @@
     "build": "node build/build.js"
   },
   "dependencies": {
+    "express": "^4.17.1",
+    "mysql2": "^1.6.5",
     "vue": "^2.5.2",
     "vue-router": "^3.0.1"
   },
