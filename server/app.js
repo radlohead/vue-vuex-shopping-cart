@@ -24,6 +24,11 @@ app.get('/api/coffees', (req, res, next) => {
     res.send(result)
   })
 })
+app.get('/api/tags', (req, res, next) => {
+  connection.query('SELECT * FROM tags', (err, results, fields) => {
+    res.send(results)
+  })
+})
 app.listen(4000, () => {
   console.log('server listen ok')
 })
