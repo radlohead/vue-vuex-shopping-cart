@@ -4,35 +4,43 @@ const app = express()
 const userInfo = require('./userInfo')
 const connection = mysql.createConnection(userInfo)
 
-app.get('/api/coffees', (req, res, next) => {
-  connection.query('SELECT * FROM coffees', (err, results, fields) => {
-    const tags = results.map(v => {
-      return {
-        key: v['tags.key'],
-        name: v['tags.name']
-      }
-    })
-    const deletePropertys = results.map(v => {
-      delete v['tags.key']
-      delete v['tags.name']
-      return v
-    })
-    const result = deletePropertys.map((v, i) => {
-      v.tags = tags[i]
-      return v
-    })
+app.get('/api/tags', (req, res, next) => {
+  connection.query('SELECT * FROM tags', (err, result, fields) => {
     res.send(result)
   })
 })
-app.get('/api/tags', (req, res, next) => {
-  connection.query('SELECT * FROM tags', (err, results, fields) => {
-    res.send(results)
+app.get('/api/purchase', (req, res, next) => {
+  connection.query('SELECT * FROM purchase', (err, result, fields) => {
+    res.send(result)
   })
 })
-app.get('/api/purchase', (req, res, next) => {
-  connection.query('SELECT * FROM purchase', (err, results, fields) => {
-    res.send(results)
-  })
+app.get('/api/coffees', (req, res, next) => {
+  connection.query(
+    `SELECT * FROM coffees, tags, purchase 
+        WHERE coffees.id = purchase.id AND coffees.id = tags.id`,
+    (err, result, fields) => {
+      const ADD_PROPERTY = {
+        KEYS: 'keys'
+      }
+      const CHANGE_PROPERTY = {
+        KEY: 'key',
+        NAME: 'name'
+      }
+      const propertysInsert = result.map(v => {
+        v[ADD_PROPERTY.KEYS] = {
+          key: v[CHANGE_PROPERTY.KEY],
+          name: v[CHANGE_PROPERTY.NAME]
+        }
+        return v
+      })
+      const propertysDelete = propertysInsert.map(v => {
+        delete v[CHANGE_PROPERTY.KEY]
+        delete v[CHANGE_PROPERTY.NAME]
+        return v
+      })
+      res.send(propertysDelete)
+    }
+  )
 })
 app.listen(4000, () => {
   console.log('server listen ok')
