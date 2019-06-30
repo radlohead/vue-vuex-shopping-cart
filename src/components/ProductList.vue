@@ -2,7 +2,14 @@
   <div>
     <header class="header">header</header>
     <ul class="label__list">
-      <li class="label__list__item" v-for="tag in tags()" :key="tag.key">{{ tag.name }}</li>
+      <li class="label__list__item" v-for="tag in tags()" :key="tag.id">{{ tag.name }}</li>
+    </ul>
+    <ul class="coffee__list">
+      <li
+        class="coffee__list__item"
+        v-for="coffee in coffees()"
+        :key="coffee.id"
+      >{{ coffee.keys.name }}</li>
     </ul>
   </div>
 </template>
@@ -16,6 +23,9 @@ export default {
     return {
       tags() {
         return store.state.tags;
+      },
+      coffees() {
+        return store.state.coffees;
       }
     };
   },
