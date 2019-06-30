@@ -1,8 +1,8 @@
 <template>
   <div>
     <header class="header">header</header>
-    <ul class="keyName__list">
-      <li>{{ this.$store.state.tags }}</li>
+    <ul class="label__list">
+      <li class="label__list__item" v-for="tag in tags()" :key="tag.key">{{ tag.name }}</li>
     </ul>
   </div>
 </template>
@@ -13,7 +13,11 @@ import store from "../store";
 
 export default {
   data() {
-    return {};
+    return {
+      tags() {
+        return store.state.tags;
+      }
+    };
   },
   created() {
     this.getCoffeeItems();
