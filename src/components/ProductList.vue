@@ -2,17 +2,24 @@
   <div>
     <header class="header">header</header>
     <ul class="keyName__list">
-      <li></li>
+      <li>{{ this.$store.state.coffees }}</li>
     </ul>
   </div>
 </template>
 
 <script>
+import { mapActions } from "vuex";
 import store from "../store";
 
 export default {
   data() {
     return {};
+  },
+  created() {
+    this.getCoffeeItems();
+  },
+  methods: {
+    ...mapActions(["getCoffeeItems"])
   },
   mounted() {
     console.log(JSON.parse(JSON.stringify(store.state)));
