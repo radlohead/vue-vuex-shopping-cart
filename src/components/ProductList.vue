@@ -2,7 +2,7 @@
   <div>
     <header class="header">header</header>
     <ul class="keyName__list">
-      <li>{{ this.$store.state.coffees }}</li>
+      <li>{{ this.$store.state.tags }}</li>
     </ul>
   </div>
 </template>
@@ -17,9 +17,10 @@ export default {
   },
   created() {
     this.getCoffeeItems();
+    this.getTagItems();
   },
   methods: {
-    ...mapActions(["getCoffeeItems"])
+    ...mapActions(["getCoffeeItems", "getTagItems"])
   },
   mounted() {
     console.log(JSON.parse(JSON.stringify(store.state)));
