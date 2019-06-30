@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import axios from 'axios'
 
 Vue.use(Vuex)
 
@@ -11,14 +12,24 @@ const store = new Vuex.Store({
   },
   actions: {
     async getTagItems({ commit }) {
-      const responseData = await fetch('http://localhost:4000/api/tags')
-      const response = await responseData.json()
-      commit('getTagItems', response)
+      try {
+        const responseData = await axios.get('http://localhost:4000/api/tags')
+        const response = await responseData.data
+        commit('getTagItems', response)
+      } catch (err) {
+        throw Error(err)
+      }
     },
     async getCoffeeItems({ commit }) {
-      const responseData = await fetch('http://localhost:4000/api/coffees')
-      const response = await responseData.json()
-      commit('getCoffeeItems', response)
+      try {
+        const responseData = await axios.get(
+          'http://localhost:4000/api/coffees'
+        )
+        const response = await responseData.data
+        commit('getCoffeeItems', response)
+      } catch (err) {
+        throw Error(err)
+      }
     }
   },
   mutations: {
