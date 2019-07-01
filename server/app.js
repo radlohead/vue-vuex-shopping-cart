@@ -27,29 +27,26 @@ app.get('/api/purchase', (req, res, next) => {
 })
 app.get('/api/coffees', (req, res, next) => {
   connection.query(
-    `SELECT * FROM coffees, tags, purchase 
-        WHERE coffees.id = purchase.id AND coffees.id = tags.id`,
-    (err, result, fields) => {
-      const ADD_PROPERTY = {
-        KEYS: 'keys'
-      }
-      const CHANGE_PROPERTY = {
-        KEY: 'key',
-        NAME: 'name'
-      }
-      const propertysInsert = result.map(v => {
-        v[ADD_PROPERTY.KEYS] = {
-          key: v[CHANGE_PROPERTY.KEY],
-          name: v[CHANGE_PROPERTY.NAME]
+    `SELECT * FROM coffees, purchase 
+        WHERE coffees.id = purchase.id`,
+    (err, coffeeResult, fields) => {
+      connection.query(`SELECT * FROM tags`, (err, tagsResult, fields) => {
+        const ADD_PROPERTY = {
+          KEYS: 'keys'
         }
-        return v
+        const CHANGE_PROPERTY = {
+          KEY: 'key',
+          NAME: 'name'
+        }
+        const result = coffeeResult.map((v, i) => {
+          v[ADD_PROPERTY.KEYS] = {
+            key: tagsResult[i][CHANGE_PROPERTY.KEY],
+            name: tagsResult[i][CHANGE_PROPERTY.NAME]
+          }
+          return v
+        })
+        res.send(result)
       })
-      const propertysDelete = propertysInsert.map(v => {
-        delete v[CHANGE_PROPERTY.KEY]
-        delete v[CHANGE_PROPERTY.NAME]
-        return v
-      })
-      res.send(propertysDelete)
     }
   )
 })
