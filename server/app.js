@@ -32,7 +32,11 @@ app.get('/api/coffees', (req, res, next) => {
     (err, coffeeResult, fields) => {
       connection.query(`SELECT * FROM tags`, (err, tagsResult, fields) => {
         const ADD_PROPERTY = {
-          KEYS: 'keys'
+          KEYS: 'keys',
+          STOCK: 'stock'
+        }
+        const REMOVE_PROPERTY = {
+          COUNT: 'count'
         }
         const CHANGE_PROPERTY = {
           KEY: 'key',
@@ -43,6 +47,8 @@ app.get('/api/coffees', (req, res, next) => {
             key: tagsResult[i][CHANGE_PROPERTY.KEY],
             name: tagsResult[i][CHANGE_PROPERTY.NAME]
           }
+          v[ADD_PROPERTY.STOCK] = coffeeResult[i][REMOVE_PROPERTY.COUNT]
+          delete v[REMOVE_PROPERTY.COUNT]
           return v
         })
         res.send(result)
