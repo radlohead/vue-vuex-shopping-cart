@@ -5,11 +5,12 @@
       <li class="label__list__item" v-for="tag in tags()" :key="tag.id">{{ tag.name }}</li>
     </ul>
     <ul class="coffee__list">
-      <li
-        class="coffee__list__item"
-        v-for="coffee in coffees()"
-        :key="coffee.id"
-      >{{ coffee.keys.name }}</li>
+      <li class="coffee__list__item" v-for="coffee in coffees()" :key="coffee.id">
+        <h3>{{ coffee.name }}</h3>
+        <span>{{ coffee.keys.name }}</span>
+        <strong>{{ coffee.price }}</strong>
+        <span>{{ coffee.stock }}</span>
+      </li>
     </ul>
   </div>
 </template>
