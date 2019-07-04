@@ -6,10 +6,13 @@
     </ul>
     <ul class="coffee__list">
       <li class="coffee__list__item" v-for="coffee in coffees()" :key="coffee.id">
-        <h3>{{ coffee.name }}</h3>
-        <span>{{ coffee.keys.name }}</span>
-        <strong>{{ coffee.price }}</strong>
-        <span>{{ coffee.stock }}</span>
+        <img :src="coffee.image" />
+        <div>
+          <h3>{{ coffee.name }}</h3>
+          <span>{{ coffee.keys.name }}</span>
+          <strong>{{ coffee.price }}</strong>
+          <span>{{ coffee.stock }}</span>
+        </div>
       </li>
     </ul>
   </div>
