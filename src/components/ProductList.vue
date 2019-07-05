@@ -13,6 +13,10 @@
           <strong>{{ coffee.price }}</strong>
           <span>{{ coffee.stock }}</span>
         </div>
+        <div>
+          <button>빼기</button>
+          <button>담기</button>
+        </div>
       </li>
     </ul>
   </div>
